@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import joi from "joi";
 import bcrypt from "bcrypt";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
+import { v4 as uuid } from "uuid";
 
 const app = express();
 
@@ -56,18 +57,47 @@ app.post("/cadastro", async (req, res) => {
 
 });
 
-app.get("/cadastro", async (req, res) => {
+app.post("/", async (req, res) => {
 
-    const {name} = req.headers;
-    console.log(name)
+    const { email, password } = req.body;
+
+    const user = await db.collection("users").findOne({email});
 
     try {
-        const users = await db.collection("users").find().toArray();
-        res.send(users);
+        if (user && bcrypt.compareSync(password, user.password)){
+            const token = uuid();    
+            await db.collection("sessions").insertOne({userId: user._id, token});
+            res.send(token);
+        }
+
+    } catch (err) {
+        res.status(500).send(err.message);  
+    }
+
+
+});
+
+app.get("/", async (req, res) => {
+
+    const {authorization} = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+
+    if (!token) return res.sendStatus(401);
+
+    try {
+        const session = await db.collection("sessions").findOne({token});
+        if (!session) return res.sendStatus(401);
+
+        const user = await db.collection("users").findOne({_id: session.userId});
+
+        if (user) delete user.password;
+
+        res.send(user);
+        console.log(user);
+
     } catch (err) {
         res.status(500).send(err.message);
     }
-
     
 });
 
