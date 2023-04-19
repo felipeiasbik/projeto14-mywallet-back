@@ -1,0 +1,32 @@
+{
+  "name": "projeto14-mywallet-back",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "API com MongoDB para o projeto Full Stack de uma carteira de controle de finanças pessoais simulando o app do Nubank.",
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felipeiasbik/projeto14-mywallet-back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felipeiasbik/projeto14-mywallet-back/issues"
+  },
+  "homepage": "https://github.com/felipeiasbik/projeto14-mywallet-back#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "cord": "^1.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.3.0"
+  }
+}
