@@ -37,13 +37,14 @@ export async function sigIn (req, res) {
 
     const user = await db.collection("users").findOne({email});
 
-    try {
-        
+    try {        
         if (user && bcrypt.compareSync(password, user.password)){
             const token = uuid();    
             await db.collection("sessions").insertOne({userId: user._id, token});
             res.send(token);
         }
+
+        if (user && !bcrypt.compareSync(password, user.password)) return res.status(401).send("Senha incorreta!");
 
     } catch (err) {
         res.status(500).send(err.message);  
