@@ -10,6 +10,7 @@ export async function transactionsUser (req, res) {
         const id = session._id;
         await db.collection("transactions").insertOne({description, value, type, id});
 
+        
         // console.log(await db.collection("transactions").find({id}).toArray())
 
         res.send("Transação adicionada com sucesso!")
