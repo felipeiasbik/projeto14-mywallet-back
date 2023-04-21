@@ -11,9 +11,8 @@ export async function authValidation (req, res, next) {
 
         const session = await db.collection("sessions").findOne({token});
         if (!session) return res.status(401);
-        // const user = await db.collection("users").findOne({_id: session.userId});
-        // if (user) delete user.password;
-        // res.send(user);
+
+        res.locals.session = session;
         next();
 
     } catch (err) {
