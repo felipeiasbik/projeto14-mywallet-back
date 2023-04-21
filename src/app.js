@@ -2,13 +2,14 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { MongoClient, ObjectId } from "mongodb";
-import authRouter from "./routes/authRoutes.js";
+import router from "./routes/index.routes.js";
 
 const app = express();
 
 // CONFIGURAÇÕES
 app.use(express.json());
 app.use(cors());
+app.use(router);
 dotenv.config();
 
 // CONEXÃO COM BANCO DE DADOS
@@ -21,7 +22,6 @@ try {
 }
 export const db = mongoClient.db();
 
-app.use(authRouter);
 
 app.get("/", async (req, res) => {
 

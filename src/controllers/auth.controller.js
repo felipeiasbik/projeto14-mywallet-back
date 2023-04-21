@@ -1,13 +1,7 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import joi from "joi";
 import { db } from "../app.js"
-
-const signUpSchema = joi.object({
-    name: joi.string().required(),
-    email: joi.string().email().required(),
-    password: joi.string().min(3).required()
-});
+import { signUpSchema } from "../schemas/auth.schema.js";
 
 export async function signUp (req, res) {
 
