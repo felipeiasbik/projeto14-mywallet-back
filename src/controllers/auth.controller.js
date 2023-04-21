@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { db } from "../app.js"
+import { db } from "../database/database.connection.js"
 import { signUpSchema } from "../schemas/auth.schema.js";
 
 export async function signUp (req, res) {
@@ -38,6 +38,7 @@ export async function sigIn (req, res) {
     const user = await db.collection("users").findOne({email});
 
     try {
+        
         if (user && bcrypt.compareSync(password, user.password)){
             const token = uuid();    
             await db.collection("sessions").insertOne({userId: user._id, token});

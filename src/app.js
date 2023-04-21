@@ -1,27 +1,13 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import { MongoClient, ObjectId } from "mongodb";
 import router from "./routes/index.routes.js";
+import { db } from "./database/database.connection.js";
 
 const app = express();
 
-// CONFIGURAÇÕES
 app.use(express.json());
 app.use(cors());
 app.use(router);
-dotenv.config();
-
-// CONEXÃO COM BANCO DE DADOS
-const mongoClient = new MongoClient(process.env.DATABASE_URL);
-try {
-    await mongoClient.connect();
-    console.log("MongoDB conectado!");
-} catch (err) {
-    console.log(err.message);
-}
-export const db = mongoClient.db();
-
 
 app.get("/", async (req, res) => {
 
