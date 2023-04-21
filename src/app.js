@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { MongoClient, ObjectId } from "mongodb";
-import { sigIn, signUp } from "./controllers/auth.controller.js";
+import authRouter from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -21,9 +21,7 @@ try {
 }
 export const db = mongoClient.db();
 
-app.post("/cadastro", signUp);
-
-app.post("/", sigIn);
+app.use(authRouter);
 
 app.get("/", async (req, res) => {
 
