@@ -31,9 +31,9 @@ export async function signIn (req, res) {
     
     try {        
         if (user && bcrypt.compareSync(password, user.password)){
-            const token = uuid();    
+            const token = uuid();
             await db.collection("sessions").insertOne({userId: user._id, token});
-            res.send(token);
+            res.send({token, name: user.name});
         }
 
         if(!user) return res.status(404).send("Email não cadastrado!");

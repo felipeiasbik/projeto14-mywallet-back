@@ -28,7 +28,7 @@ export async function transactionsGetUser (req, res){
         const user = await db.collection("users").findOne({_id: session.userId})
         const name = user.name;
         
-        const transactions = await db.collection("transactions").find({email: session.email}).toArray();
+        const transactions = await db.collection("transactions").find({id}).toArray();
 
         let sumPositive = 0;
         let sumNegative = 0;
