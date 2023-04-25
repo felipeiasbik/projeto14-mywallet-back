@@ -5,7 +5,7 @@ dotenv.config();
 
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
 try {
-    await mongoClient.connect();
+    await mongoClient.connect({useUnifiedTopology: true});
     console.log("MongoDB conectado!");
 } catch (err) {
     console.log(err.message);
