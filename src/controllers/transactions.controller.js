@@ -6,11 +6,8 @@ export async function transactionsUser (req, res) {
     const session = res.locals.session;
     
     try {
-        const id = session._id;
+        const id = session.userId;
         await db.collection("transactions").insertOne({description, value, type, id});
-
-
-        // console.log(await db.collection("transactions").find({id}).toArray())
 
         res.send("Transação adicionada com sucesso!")
     } catch (err) {
@@ -19,52 +16,17 @@ export async function transactionsUser (req, res) {
 }
 
 export async function transactionsGetUser (req, res){
-
-    // const { description, value, type, id} = req.body;
-    // const session = res.locals.session;
-
-    // try {
-    //     const inputsTransactions = await db.collection("transactions").find({id}).toArray();
-    //     console.log(inputsTransactions);
-    //     const user = await db.collection("users").findOne({_id: session.userId});
-    //     const name = user.name;
-    //     delete inputsTransactions._id;
-    //     const transactions = await db.collection("transactionsFinals").insertOne({...inputsTransactions, description, value, type})
-    //     const transactionsView = await db.collection("transactionsFinals").find({id}).toArray();
-
-    //     res.send(transactionsView)
-    // } catch (err) {
-    //     res.status(500).send(err.message);
-    // }
- 
-    // ----------------------------------------------------------------------------------------------------------------------------------------------
-
+    
     const session = res.locals.session;
 
     try {
 
-        const id = session._id;
-    //     const inputsTransactions = await db.collection("transactions").find({id}).toArray()
-    //     const description = inputsTransactions.description;
-    //     const value = inputsTransactions.value;
-    //     const type = inputsTransactions.type;
+        const id = session.userId;
 
         const user = await db.collection("users").findOne({_id: session.userId})
         const name = user.name;
-
-    //     const transactionsFinalsPromises = inputsTransactions.map( v => {
-    //         delete v._id;
-    //         delete v.id;
-    //         db.collection("transactionsFinals").insertOne({...v, idUser: id, name: name, total: total[total.length-1]})
-    //     })
-    //     delete transactionsFinalsPromises["_id"]
-    //     const transactionsFinals = await Promise.all(transactionsFinalsPromises);
-
-    //     const finals = await db.collection("transactionsFinals").find({idUser: id}).toArray();
-    
-        // console.log(finals)
         
-        const transactions = await db.collection("transactions").find({id}).toArray();
+        const transactions = await db.collection("transactions").find({email: session.email}).toArray();
 
         let sumPositive = 0;
         let sumNegative = 0;
