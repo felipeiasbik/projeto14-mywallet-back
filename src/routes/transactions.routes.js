@@ -7,7 +7,7 @@ import { transactionSchema } from "../schemas/transactions.schema.js";
 
 const transactionsRouter = Router();
 
-transactionsRouter.post("/home", authValidation, validateSchema(transactionSchema), transactionsUser);
+transactionsRouter.post("/nova-transacao", authValidation, validateSchema(transactionSchema), transactionsUser);
 transactionsRouter.get("/home", authValidation, transactionsGetUser);
 
 export default transactionsRouter;

@@ -8,6 +8,7 @@ export async function transactionsUser (req, res) {
     
     try {
         const id = session.userId;
+        
         await db.collection("transactions").insertOne({description, value, type, id, date: dayjs(Date.now()).format("DD/MM")});
 
         res.send("Transação adicionada com sucesso!")
